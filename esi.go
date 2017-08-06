@@ -50,7 +50,7 @@ var (
 	errNotESI       = errors.New("esi: not an esi")
 )
 
-var emptyBytes = 7
+var emptyBytes = 4
 
 func init() {
 	image.RegisterFormat("esi", "esi1", Decode, DecodeConfig)
@@ -74,7 +74,7 @@ func Decode(r io.Reader) (o image.Image, err error) {
 
 	img := image.NewRGBA(bounds)
 
-	buf.Next(8 + 7)
+	buf.Next(8 + emptyBytes)
 
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
@@ -183,7 +183,7 @@ func Encode(w io.Writer, img image.Image) error {
 		configByte |= 32
 	}
 
-	_, err = w.Write([]byte{configByte, 0, 0, 0, 0, 0, 0, 0, 0})
+	_, err = w.Write([]byte{configByte, 0, 0, 0, 0, 0})
 	if err != nil {
 		return err
 	}
