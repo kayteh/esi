@@ -42,7 +42,6 @@ import (
 	"image"
 	"image/color"
 	"io"
-	"log"
 )
 
 var (
@@ -66,11 +65,7 @@ func Decode(r io.Reader) (o image.Image, err error) {
 		return o, err
 	}
 
-	log.Println(cfg)
-
 	bounds := image.Rect(0, 0, cfg.Width, cfg.Height)
-
-	log.Println(bounds)
 
 	img := image.NewRGBA(bounds)
 
@@ -183,7 +178,9 @@ func Encode(w io.Writer, img image.Image) error {
 		configByte |= 32
 	}
 
-	_, err = w.Write([]byte{configByte, 0, 0, 0, 0, 0})
+	cfgpad := make([]byte, 2+emptyBytes) // 1 byte for config, 1 empty byte, and a number of empty bytes.
+	cfgpad[0] = configByte
+	_, err = w.Write(cfgpad)
 	if err != nil {
 		return err
 	}
