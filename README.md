@@ -1,6 +1,6 @@
 # esi
 
-Go version of @AlexPoulson's ESI format.
+Go version of @AlexPoulsen's ESI format.
 
 See original repo for more info: https://github.com/AlexPoulsen/esi
 
